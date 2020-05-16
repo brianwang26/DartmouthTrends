@@ -23,12 +23,9 @@ from Processing import DataProcessingFunctions
 # dataTable.sort_values(by=["Department", "Course Number", 'Term'], inplace = True) # Sort by Dept, Courses, Term
 # dataTable.to_csv("data/processedData.csv", index=False)
 
-dataTable = pd.read_csv("data/processedData.csv")
-
-print(dataTable.shape[0])
+dataTable = pd.read_csv("/Users/brianwang/Desktop/DartmouthTrends/data/processedData.csv")
+# dataTable = pd.read_csv("DartmouthTrends/data/processedData.csv")
 
 dataTable = DataProcessingFunctions.CombineSections(dataTable)
 
-print(dataTable.shape[0])
-
-dataTable.to_csv("data/combined.csv", index=False)
+dataTable.to_csv("/Users/brianwang/Desktop/DartmouthTrends/data/combined.csv", index=False)
