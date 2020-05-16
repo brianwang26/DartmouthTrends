@@ -12,12 +12,12 @@ Dartmouth Trends will offer an easy way to answer all the above inquiries. Dartm
 ### The Data
 Every term, Dartmouth posts enrollments/medians for every single course of that term onto a table on a page in the ORC website. Below is an example of the data posted for the 20W Dartmouth term. 
 
-<img src = "screenshots/Registrar.png" height = "60%">
+<img src = "screenshots/Registrar.png" height = "300">
 
 ### Scraping the Data
 Using Beautiful Soup, I scraped all the data for medians and enrollments for every single course that has been administered from 11S to 20W. To do so, I had a for-loop that visited each page where the medians/enrollments were posted for each term, and scraped all the data from those HTML tables into a Pandas data frame. Afterwards, I exported the data frame into a CSV file. Below is the head of my rawData CSV table. 
 
-<img src = "screenshots/rawData.png" height = "300"> 
+<img src = "screenshots/rawData.png" height = "250"> 
 
 ### Processing the Data
 
