@@ -23,5 +23,6 @@ Using Beautiful Soup, I scraped all the data for medians and enrollments for eve
 
 ### Writing Functions to Process User Queries 
 
-## Future Improvements
+## Future Goals
+For the next step of the project, I hope to be able to use React (for front-end) and Flask (for back-end) to a set-up a web-application that is able to functionally process user queries. I'm currently looking to have that booted up by mid-June, 2020. 
 
