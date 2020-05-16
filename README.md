@@ -8,6 +8,7 @@ During course selection time, many Dartmouth students go hunting for the medians
 Dartmouth Trends will offer an easy way to answer all the above inquiries. Dartmouth Trends will eventually be a website that allows Dartmouth students and administrators to compare the enrollment and grade distributions of classes over the course of a range of terms. Dartmouth Trends also allows for the understanding of more macro trends, as users will also be able to see enrollment and grade distribution patterns of entire academic departments on a year-by-year basis. 
 
 ## The Process of Making Dartmouth Trends
+Every term, Dartmouth posts enrollments/medians for every single course of that term onto a table on a page in the ORC website. Below is an example of the data posted for the 20W Dartmouth term. <img src = "screenshots/Registrar.png" height = "100">
 
 ### The Data
 
