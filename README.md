@@ -7,3 +7,8 @@ During course selection time, many Dartmouth students go hunting for the medians
 ## What Dartmouth Trends Offers
 
 ## The Process of Making Dartmouth Trends
+
+### The Data
+
+### Scraping the Data
+
