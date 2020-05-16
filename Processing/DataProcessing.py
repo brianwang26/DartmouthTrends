@@ -1,6 +1,9 @@
 import pandas as pd
 from Processing import DataProcessingFunctions
 
+# Checking if commits work
+
+
 # dataTable = pd.read_csv("data/rawData.csv")
 # dataTable.rename(columns={'TERM':'Term','ENRL':'Enrollment','MEDIAN':'Median', 'COURSE':'Course'}, inplace=True)
 # DataProcessingFunctions.ReadCourses(dataTable) # Splitting Courses into Dept, Course #, Section #
