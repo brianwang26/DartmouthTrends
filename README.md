@@ -71,5 +71,18 @@ I'm still working on queries that can process user requests on a department-by-d
 
 Do you want to play around with Dartmouth Trends? Well you're in luck because I'm going to show you how. 
 
+**STEP 1** 
+
+Open your terminal and change the current working directory to the location where you want your cloned directory. Then type 
+``` git clone https://github.com/brianwang26/DartmouthTrends.git ``` and hit enter. 
+
+**STEP 2** 
+
+Go to the Queries folder and open up "TestFile.py." 
+
+**STEP 3**
+
+You will now be using the function ```TermQueries.findCoursesTerms(courses, terms, outputFilename, plotGrades, plotEnrollments)``` to find out whatever you want. In ```courses``` you will want to insert a list of courses you are interested in in the form of DEPT-COURSENUMBER (ex. COSC-10). In ```terms``` you will want to insert a list of terms you are interested in. You can also use the options ```TermQueries.recentTerms``` for everything from 16F to 20W and ```TermQueries.allTerms``` for all terms from 11W to 20W. In ```outputFileName``` you will want to insert the name of the file you want your queries to write to. After this function is called, you can find this file in the same Queries folder you are in. Finally, `plotGrades` and `plotEnrollments` will be booleans that specify whether or not you want to plot the grades/enrollments of the courses you are interested in. And just like that you should be set. 
+
 ## Future Goals
 For the next step of the project, I hope to be able to use React (for front-end) and Flask (for back-end) to a set-up a web-application that is able to functionally process user queries. I'm currently looking to have that booted up by mid-June, 2020. 
