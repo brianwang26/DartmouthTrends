@@ -49,7 +49,9 @@ Because we are trying to understand trends for specific courses and specific ter
 
 Below is the function definition for what I will use to process user queries. 
 
-<img src = "screenshots/queryCode" width = "800"> 
+<img src = "screenshots/queryCode.png" width = "800"> 
+
+
 
 
 
