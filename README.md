@@ -47,7 +47,7 @@ Because we are trying to understand trends for specific courses and specific ter
 
 ### Writing Functions to Process User Queries 
 
-## How You Can Run These Queries on Your Local Machine
+## How To Use Dartmouth Trends 
 
 ## Future Goals
 For the next step of the project, I hope to be able to use React (for front-end) and Flask (for back-end) to a set-up a web-application that is able to functionally process user queries. I'm currently looking to have that booted up by mid-June, 2020. 
