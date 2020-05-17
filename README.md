@@ -65,7 +65,11 @@ Furthermore, because we have specified that we want to plot grades and enrollmen
 
 <img src = "screenshots/enrollmentsPlot.png" width = "600"> 
 
+I'm still working on queries that can process user requests on a department-by-department and year-by-year basis. 
+
 ## How To Use Dartmouth Trends (on your local machine)
+
+Do you want to play around with Dartmouth Trends? Well you're in luck because I'm going to show you how. 
 
 ## Future Goals
 For the next step of the project, I hope to be able to use React (for front-end) and Flask (for back-end) to a set-up a web-application that is able to functionally process user queries. I'm currently looking to have that booted up by mid-June, 2020. 
