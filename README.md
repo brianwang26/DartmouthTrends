@@ -31,13 +31,13 @@ In the original data table, courses are given as Dept-CourseNumber-SectionNumber
 
 On the original site, medians were given in terms of letter grades. I then assigned all medians according to their corresponding quality points (which divided by 3, yields the corresponding grade point value). To account for medians which had two grades (ex. A-/B+), I averaged the quality points of the two grades. 
 
-<img src = "screenshots/qualityPoints.png" height = "300">
+<img src = "screenshots/qualityPoints.png" height = "500">
 
 **Combining Multi-Sectional Courses**
 
 Many courses have multiple sections. For instance, below you can see that in 12W, there were 19 different sections of Writing 5.
 
-<img src = "screenshots/beforeCombine.png" height = "300">
+<img src = "screenshots/beforeCombine.png" height = "500">
 
 Because we are trying to understand trends for specific courses and specific terms, it makes sense to combine these multi-sectional courses. To do this, I averaged the quality points (medians) among all the sections and summed up the enrollment of all sections. Below is the format of the combined sections data table, as well as an example of the Writing 5 courses with combined sections. 
 
