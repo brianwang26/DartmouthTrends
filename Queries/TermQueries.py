@@ -82,12 +82,3 @@ def findCoursesTerms(courses, terms, outputFile, plotGrades = False, plotEnrollm
         plt.ylabel('Enrollments by Term')
         plt.legend([currCourse])
         plt.show()
-
-
-termsOfInterest = ["15F", "18F", "19F", "15S", "18W"]
-
-coursesOfInterest = ["WRIT-5", "COSC-10"]
-recentTerms = ["16F", "17W", "17S", "17X", "17F", "18W", "18S", "18X", "18F", "19W", "19S", "19X", "19F", "20W"]
-plotGrades = True
-plotEnrollments = True
-findCoursesTerms(coursesOfInterest, recentTerms, "courseTrial", plotGrades, plotEnrollments)
