@@ -1,6 +1,26 @@
 from pandas import DataFrame
 import pandas as pd
 
+# output: data table where all courses are split into department, course number, and section number
+def ReadCourses(data):
+    shape = data.shape
+    depts = [] # hold column of all depts
+    courseNumbers = [] # holds column of all courseNumbers
+    sectionNumbers = [] # holds column of all sectionNumbers
+
+    for rowNum in range(shape[0]): # courses are in the format: Dept-CourseNumber-SectionNumber
+        course = data.loc[rowNum]["Course"]
+        tokens = course.split('-')
+        depts.append(tokens[0])
+        courseNumbers.append(tokens[1])
+        sectionNumbers.append(tokens[2])
+
+    data.insert(2, "Department", depts)
+    data.insert(3, "Course Number", courseNumbers)
+    data.insert(4, "Section Number", sectionNumbers)
+
+
+# output: data table where all courses receive a "quality points" designation for their median
 def AssigningPoints(data):
 
     shape = data.shape
@@ -8,7 +28,8 @@ def AssigningPoints(data):
 
     for rowNum in range(shape[0]):
         grade = data.loc[rowNum]["Median"]
-        # print(grade)
+
+        # assigning quality points for the median of each course
         if (grade == "A"):
             points.append(12)
         elif (grade == "A/A-"):
@@ -42,23 +63,7 @@ def AssigningPoints(data):
 
     data.insert(7, "Points", points)
 
-def ReadCourses(data):
-    shape = data.shape
-    depts = []
-    courseNumbers = []
-    sectionNumbers = []
-
-    for rowNum in range(shape[0]):
-        course = data.loc[rowNum]["Course"]
-        tokens = course.split('-')
-        depts.append(tokens[0])
-        courseNumbers.append(tokens[1])
-        sectionNumbers.append(tokens[2])
-
-    data.insert(2, "Department", depts)
-    data.insert(3, "Course Number", courseNumbers)
-    data.insert(4, "Section Number", sectionNumbers)
-
+# output: data table where each term has a corresponding year listed
 def AddYears(data):
     shape = data.shape
     years = []
@@ -70,12 +75,13 @@ def AddYears(data):
 
     data.insert(0, "Year", years)
 
+# output: average the medians and sum the enrollments of courses with multiple sections; keeps only one section of a course from a term
 def CombineSections(data):
 
-    totalEnrollments = []
-    numOfSections = []
-    meanPoints = []
-    rowsToDrop = []
+    totalEnrollments = [] # holds column of enrollments
+    numOfSections = [] # holds column of number of sections of each course
+    meanPoints = [] # holds mean of the quality points of each course
+    rowsToDrop = [] # holds which rows to drop
 
     currTerm = data.loc[0]["Term"]
     currDepartment = data.loc[0]["Department"]
@@ -91,27 +97,28 @@ def CombineSections(data):
         if(thisTerm == currTerm and thisDepartment == currDepartment and thisCourseNumber == currCourseNumber):
             points.append(data.loc[rowNum]["Points"])
             enrollments.append(data.loc[rowNum]["Enrollment"])
-            rowsToDrop.append(rowNum)
+            rowsToDrop.append(rowNum) # will drop this row because its a same course and same term of previous section
 
         else:
-            totalEnrollments.append(sum(enrollments))
-            meanPoints.append(sum(points)/len(points))
-            numOfSections.append(len(enrollments))
+            totalEnrollments.append(sum(enrollments)) # total enrollment for this course across sections
+            meanPoints.append(sum(points)/len(points)) # average median for this course across sections
+            numOfSections.append(len(enrollments)) # number of sections for this course
+
             currTerm = thisTerm
             currDepartment = thisDepartment
             currCourseNumber = thisCourseNumber
             enrollments = [data.loc[rowNum]["Enrollment"]]
             points = [data.loc[rowNum]["Points"]]
 
+    # for last row
     totalEnrollments.append(sum(enrollments))
     numOfSections.append(len(enrollments))
     meanPoints.append(sum(points)/len(points))
 
-    data = data.drop(data.index[rowsToDrop])
-    data.drop(['Course', 'Section Number', 'Enrollment', 'Points'], axis=1, inplace=True)
-    data.insert(4, "Number of Sections", numOfSections)
-    data.insert(5, "Enrollments", totalEnrollments)
-    data.insert(7, "Mean Points", meanPoints)
+    data = data.drop(data.index[rowsToDrop]) # drops the rows of repeat courses
+    data.insert(8, "Number of Sections", numOfSections)
+    data.insert(9, "Enrollments", totalEnrollments)
+    data.insert(10, "Mean Points", meanPoints)
     return(data)
 
 
