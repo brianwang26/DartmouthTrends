@@ -47,16 +47,25 @@ Because we are trying to understand trends for specific courses and specific ter
 
 ### Writing Functions to Process User Queries 
 
-Below is the function definition for what I will use to process user queries. 
+Below is the function definition of the function I will use to process user queries. 
 
 <img src = "screenshots/queryCode.png" width = "800"> 
 
+This function takes in 5 main parameters. A list of courses we are interested in, a list of terms we are interested in, the name of our output file for our query result, and two booleans denoting whether or not we will plot the grades and enrollments of the courses we are interested in. Below is an example call of the function. 
 
+<img src = "screenshots/queryCall.png" width = "800"> 
 
+This call then results in a few things: it will find all instances of "COSC-10" and "WRIT-5" over the terms list we have specified. It will then write this result to "courseTrial.csv" which is shown below. 
 
+<img src = "screenshots/tableResult.png" width = "600"> 
 
-## How To Use Dartmouth Trends 
+Furthermore, because we have specified that we want to plot grades and enrollments, this program will plot 4 graphs (one for each course for grades, one for each course for enrollments). Unfortunately, the matplotlib did not let me plot two lines on the same graph due to the mismatching terms COSC-10 and WRIT-5 are offered in. Below is an image of the grade distribution pattern of Writing 5. You can see that there's some significant grade inflation going on! Below is also an image of the enrollment pattern of Computer Science 10. It seems like more and more people are starting to learn those darn data structures. 
+
+<img src = "screenshots/gradesPlot.png" width = "600">
+
+<img src = "screenshots/enrollmentsPlot.png" width = "600"> 
+
+## How To Use Dartmouth Trends (on your local machine)
 
 ## Future Goals
 For the next step of the project, I hope to be able to use React (for front-end) and Flask (for back-end) to a set-up a web-application that is able to functionally process user queries. I'm currently looking to have that booted up by mid-June, 2020. 
-
