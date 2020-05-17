@@ -15,7 +15,6 @@ recentTerms = ["16F", "17W", "17S", "17X", "17F", "18W", "18S", "18X", "18F", "1
 
 # input: list of courses and list of terms; booleans of whether to plot grades and plot enrollments; file name to write result into
 # output: write table of data queried to specified CSV file
-
 def findCoursesTerms(courses, terms, outputFile, plotGrades = False, plotEnrollments = False):
     frames = [] # initialize resulting frames
     for course in courses: # split courses by department and number
@@ -86,6 +85,9 @@ def findCoursesTerms(courses, terms, outputFile, plotGrades = False, plotEnrollm
 
 
 termsOfInterest = ["15F", "18F", "19F", "15S", "18W"]
-coursesOfInterest = ["MATH-20", "ECON-22"]
 
-findCoursesTerms(coursesOfInterest, recentTerms, "courseTrial", True, True)
+coursesOfInterest = ["WRIT-5", "COSC-10"]
+recentTerms = ["16F", "17W", "17S", "17X", "17F", "18W", "18S", "18X", "18F", "19W", "19S", "19X", "19F", "20W"]
+plotGrades = True
+plotEnrollments = True
+findCoursesTerms(coursesOfInterest, recentTerms, "courseTrial", plotGrades, plotEnrollments)
