@@ -13,24 +13,6 @@ yearsOfInterest = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019]
 # # Specify whether or not you want to plot grades/enrollments
 # plotGrades = True
 # plotEnrollments = False
-#
-# TermQueries.find_courses_by_terms(coursesOfInterest, termsOfInterest, "sample", plotGrades, plotEnrollments)
-#
-# course_or_department_message = "1 for Course, 2 for Department"
-# term_or_year_message = "1 for Term, 2 for Year"
-#
-# def user_interaction():
-#     print(course_or_department_message)
-#     is_course = input()
-#     while is_course != '1' and is_course != '2':
-#         print("Not a valid input")
-#         is_course = input()
-#
-#     print(term_or_year_message)
-#     is_term = input()
-#     while is_term != '1' and is_term != '2':
-#         print("Not a valid input")
-#         is_term = input()
-#
 
+plotGrades = True,
 get_query_result(False, False, departmentsOfInterest, yearsOfInterest, True, True, "sample")
