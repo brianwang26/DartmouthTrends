@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
+import matplotlib.backends.backend_pdf
 
 data_by_course_and_term = pd.read_csv("/Users/brianwang/Desktop/DartmouthTrends/data/data_by_course_and_term.csv")
 data_by_course_and_year = pd.read_csv("/Users/brianwang/Desktop/DartmouthTrends/data/data_by_course_and_year.csv")
@@ -60,52 +61,55 @@ def get_query_result(is_courses, is_terms, academic_items, time_items, plotting_
     result = pd.concat(frames)
     result.to_csv(outputFile + ".csv", index=False)
 
-    grade_analytics(result, academic_index, time_index)
+    analytics_and_plotting(result, academic_index, time_index, plotting_grades, plotting_enrollments)
     # enrollment_analytics()
 
-    if plotting_grades:
-        plot_grades(result, academic_index, time_index)
+    # pdf = matplotlib.backends.backend_pdf.PdfPages("output.pdf")
 
-    if plotting_enrollments:
-        plot_enrollments(result, academic_index, time_index)
 
-def grade_analytics(data_table, academic_index, time_index):
+def analytics_and_plotting(data_table, academic_index, time_index, plotting_grades, plotting_enrollments):
     curr_academic_item = data_table.iloc[0].loc[academic_index]
     curr_time_items = [data_table.iloc[0].loc[time_index]]
     curr_grades = [data_table.iloc[0].loc["Mean Points"]]
+    curr_enrollments = [data_table.iloc[0].loc["Enrollments"]]
 
     for row in range(1, data_table.shape[0]):
         if data_table.iloc[row].loc[academic_index] != curr_academic_item:  # we have arrived at different course
             # analytics of previous course
-            time_array = convert_to_time(curr_time_items, time_index)
-            x = np.array(time_array).reshape((-1, 1))
-            y = np.array(curr_grades)
-            model = LinearRegression()
-            model.fit(x, y)
-            model = LinearRegression().fit(x, y)
-            r_sq = model.score(x, y)
-            print('Analysis for ' + curr_academic_item)
-            print('Coefficient of determination: ', r_sq)
-            print('Mean: ' + str(sum(curr_grades)/len(curr_grades)))
-            print('Slope:', model.coef_)
-            if time_index == 'Term':
-                constant = 10
-                constant_string = "20F"
-            else:
-                constant = 2020 # 20F = 20*4 + 3 = 83
-                constant_string = "2020"
-            y_pred = model.predict(np.array([constant]).reshape(-1, 1)) # predict some number
-            print('Prediction of Grade for ' + constant_string + str(y_pred))
+            analyze_grades(curr_academic_item, curr_time_items, time_index, curr_grades)
+            analyze_enrollments(curr_academic_item, curr_time_items, time_index, curr_enrollments)
+            if plotting_grades:
+                plot_grades(curr_academic_item, curr_time_items, time_index, curr_grades)
+            if plotting_enrollments:
+                plot_enrollments(curr_academic_item, curr_time_items, time_index, curr_enrollments)
 
             curr_academic_item = data_table.iloc[row].loc[academic_index]
             curr_time_items = [data_table.iloc[row].loc[time_index]]  # start new terms list
             curr_grades = [data_table.iloc[row].loc["Mean Points"]]  # start new grades list
+            curr_enrollments = [data_table.iloc[row].loc["Enrollments"]]
 
         else:
             curr_time_items.append(data_table.iloc[row].loc[time_index])
             curr_grades.append(data_table.iloc[row].loc["Mean Points"])
+            curr_enrollments.append(data_table.iloc[row].loc["Enrollments"])
 
-    print('Analysis for ' + curr_academic_item)
+    analyze_grades(curr_academic_item, curr_time_items, time_index, curr_grades)
+    analyze_enrollments(curr_academic_item, curr_time_items, time_index, curr_enrollments)
+    if plotting_grades:
+        plot_grades(curr_academic_item, curr_time_items, time_index, curr_grades)
+    if plotting_enrollments:
+        plot_enrollments(curr_academic_item, curr_time_items, time_index, curr_enrollments)
+
+# def enrollment_analytics(data_table, academic_index, time_index):
+def plot_grades(curr_academic_item, curr_time_items, time_index, curr_grades):
+    plt.plot(curr_time_items, curr_grades)
+    plt.xlabel(time_index)
+    plt.ylabel('Grades by ' + time_index)
+    plt.legend([curr_academic_item])
+    plt.figure()
+    plt.show()
+
+def analyze_grades(curr_academic_item, curr_time_items, time_index, curr_grades):
     time_array = convert_to_time(curr_time_items, time_index)
     x = np.array(time_array).reshape((-1, 1))
     y = np.array(curr_grades)
@@ -113,19 +117,51 @@ def grade_analytics(data_table, academic_index, time_index):
     model.fit(x, y)
     model = LinearRegression().fit(x, y)
     r_sq = model.score(x, y)
-    print('Coefficient of determination: ', r_sq)
-    print('Intercept:', model.intercept_)
-    print('Slope:', model.coef_)
+    print('Analysis for Grades of ' + curr_academic_item)
+    print('Coefficient of determination: ', str(round(r_sq, 3)))
+    print('Mean: ' + str(round(sum(curr_grades) / len(curr_grades), 3)))
+    print('Slope:', str(round(model.coef_[0], 3)))
     if time_index == 'Term':
         constant = 83
         constant_string = "20F"
     else:
-        constant = 2020 # 20F = 20*4 + 3 = 83
+        constant = 2020  # 20F = 20*4 + 3 = 83
         constant_string = "2020"
-    y_pred = model.predict(np.array([constant]).reshape(-1, 1))  # predict some number
-    print('Prediction of Grade for ' + constant_string + ': ' + str(y_pred))
+    y_pred = model.predict(np.array([constant]).reshape(-1, 1))[0]  # predict some number
+    print('Prediction of Grade for ' + constant_string + ": " +  str(round(y_pred, 3)))
+    print('\n')
 
-# def enrollment_analytics(data_table, academic_index, time_index):
+
+def plot_enrollments(curr_academic_item, curr_time_items, time_index, curr_enrollments):
+    plt.plot(curr_time_items, curr_enrollments)
+    plt.xlabel(time_index)
+    plt.ylabel('Enrollments by ' + time_index)
+    plt.legend([curr_academic_item])
+    plt.figure()
+    plt.show()
+
+
+def analyze_enrollments(curr_academic_item, curr_time_items, time_index, curr_enrollments):
+    time_array = convert_to_time(curr_time_items, time_index)
+    x = np.array(time_array).reshape((-1, 1))
+    y = np.array(curr_enrollments)
+    model = LinearRegression()
+    model.fit(x, y)
+    model = LinearRegression().fit(x, y)
+    r_sq = model.score(x, y)
+    print('Analysis for Enrollments of ' + curr_academic_item)
+    print('Coefficient of determination: ', str(round(r_sq, 3)))
+    print('Mean: ' + str(round(sum(curr_enrollments)/len(curr_enrollments), 3)))
+    print('Slope:', str(round(model.coef_[0], 3)))
+    if time_index == 'Term':
+        constant = 83
+        constant_string = "20F"
+    else:
+        constant = 2020  # 20F = 20*4 + 3 = 83
+        constant_string = "2020"
+    y_pred = model.predict(np.array([constant]).reshape(-1, 1))[0]  # predict some number
+    print('Prediction of Enrollment for ' + constant_string + ": " + str(round(y_pred, 3)))
+    print('\n')
 
 def convert_to_time(list, time_index):
     if time_index == "Year":
@@ -135,62 +171,3 @@ def convert_to_time(list, time_index):
         for term in list:
             result.append(term_to_time_dict[term])
         return result
-
-# input: data table
-# output: grades vs. results
-def plot_grades(data_table, academic_index, time_index):
-    curr_academic_item = data_table.iloc[0].loc[academic_index]
-    curr_time_items = [data_table.iloc[0].loc[time_index]]
-    curr_grades = [data_table.iloc[0].loc["Mean Points"]]
-
-    for row in range(1, data_table.shape[0]):
-        if data_table.iloc[row].loc[academic_index] != curr_academic_item:  # we have arrived at different course
-            # plot previous course
-            plt.plot(curr_time_items, curr_grades)
-            plt.xlabel(time_index)
-            plt.ylabel('Grades by ' + time_index)
-            plt.legend([curr_academic_item])
-            plt.show()
-
-            curr_academic_item = data_table.iloc[row].loc[academic_index]
-            curr_time_items = [data_table.iloc[row].loc[time_index]]  # start new terms list
-            curr_grades = [data_table.iloc[row].loc["Mean Points"]]  # start new grades list
-
-        else:
-            curr_time_items.append(data_table.iloc[row].loc[time_index])
-            curr_grades.append(data_table.iloc[row].loc["Mean Points"])
-
-    plt.plot(curr_time_items, curr_grades, label=curr_academic_item)  # plots for final course in the query
-    plt.xlabel(time_index)
-    plt.ylabel('Grades by ' + time_index)
-    plt.legend([curr_academic_item])
-    plt.show()
-
-def plot_enrollments(data_table, academic_index, time_index):
-    curr_academic_item = data_table.iloc[0].loc[academic_index]
-    curr_time_items = [data_table.iloc[0].loc[time_index]]
-    curr_enrollments = [data_table.iloc[0].loc["Enrollments"]]
-
-    for row in range(1, data_table.shape[0]):
-        if data_table.iloc[row].loc[academic_index] != curr_academic_item:  # we have arrived at different course
-            # plot previous course
-            plt.plot(curr_time_items, curr_enrollments)
-            plt.xlabel(time_index)
-            plt.ylabel('Enrollments by ' + time_index)
-            plt.legend([curr_academic_item])
-            plt.show()
-
-            curr_academic_item = data_table.iloc[row].loc[academic_index]
-            curr_time_items = [data_table.iloc[row].loc[time_index]]  # start new terms list
-            curr_enrollments = [data_table.iloc[row].loc["Enrollments"]]  # start new grades list
-
-        else:
-            curr_time_items.append(data_table.iloc[row].loc[time_index])
-            curr_enrollments.append(data_table.iloc[row].loc["Enrollments"])
-
-    plt.plot(curr_time_items, curr_enrollments, label=curr_academic_item)  # plots for final course in the query
-    plt.xlabel(time_index)
-    plt.ylabel('Enrollments by ' + time_index)
-    plt.legend([curr_academic_item])
-    plt.show()
-

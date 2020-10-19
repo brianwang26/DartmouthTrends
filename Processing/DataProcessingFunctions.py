@@ -2,6 +2,7 @@ from pandas import DataFrame
 import pandas as pd
 from itertools import islice
 
+# input: data table
 # output: data table where all courses are split into department, course number, and section number
 def ReadCourses(data):
     shape = data.shape
@@ -30,6 +31,7 @@ def AssigningPoints(data):
     for rowNum in range(shape[0]):
         grade = data.loc[rowNum]["Median"]
 
+        # Note: looking back a dictionary would've been way better
         # assigning quality points for the median of each course
         if (grade == "A"):
             points.append(12)
@@ -187,7 +189,8 @@ def organize_courses_and_years(processed_data):
     result.insert(4, "Mean Points", mean_points)
     return result
 
-
+# input: processed data
+# output: data organized by departments and terms
 def organize_departments_and_terms(processed_data):
     result = processed_data
 
@@ -252,12 +255,12 @@ def organize_departments_and_terms(processed_data):
     print(result.shape[0])
     return result
 
-
+# input: processed data
+# output: data organized by departments and years
 def organize_departments_and_years(processed_data):
     result = processed_data
     result.sort_values(by=["Department", "Year"], inplace = True) # Resort by Dept, Courses, Term
 
-    all_years = []
     total_enrollments = []  # holds column of enrollments
     total_sections = []  # holds column of number of sections of each course
     mean_points = []  # holds mean of the quality points of each course
@@ -306,12 +309,3 @@ def organize_departments_and_years(processed_data):
     result.insert(4, "Mean Points", mean_points)
     print(result.shape[0])
     return result
-
-
-
-
-
-
-
-
-
