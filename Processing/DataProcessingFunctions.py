@@ -1,4 +1,3 @@
-from pandas import DataFrame
 import pandas as pd
 from itertools import islice
 
@@ -22,49 +21,21 @@ def ReadCourses(data):
     data.insert(4, "Section Number", sectionNumbers)
 
 
+# input: data table with grades in letter format
 # output: data table where all courses receive a "quality points" designation for their median
 def AssigningPoints(data):
 
     shape = data.shape
     points = []
-
+    grade_dictionary = {'A': 12, 'A/A-': 11.5, 'A-': 11, 'A-/B+': 10.5,
+                        'B+': 10, 'B+/B': 9.5, 'B': 9, 'B/B-': 8.5, 'B-': 8, 'B-/C+': 7.5,
+                        'C+': 7, 'C+/C': 6.5, 'C': 6, 'C/C-': 5.5, 'C-': 5}
     for rowNum in range(shape[0]):
         grade = data.loc[rowNum]["Median"]
-
-        # Note: looking back a dictionary would've been way better
-        # assigning quality points for the median of each course
-        if (grade == "A"):
-            points.append(12)
-        elif (grade == "A/A-"):
-            points.append(11.5)
-        elif (grade == "A-"):
-            points.append(11)
-        elif(grade == "A-/B+"):
-            points.append(10.5)
-        elif(grade == "B+"):
-            points.append(10)
-        elif(grade == "B+/B"):
-            points.append(9.5)
-        elif (grade == "B"):
-            points.append(9)
-        elif (grade == "B/B-"):
-            points.append(8.5)
-        elif (grade == "B-"):
-            points.append(8)
-        elif(grade == "B-/C+"):
-            points.append(7.5)
-        elif(grade == "C+"):
-            points.append(7)
-        elif(grade == "C+/C"):
-            points.append(6.5)
-        elif (grade == "C"):
-            points.append(6)
-        elif (grade == "C/C-"):
-            points.append(5.5)
-        elif (grade == "C-"):
-            points.append(5)
+        points.append(grade_dictionary[grade]) # assign based on dictionary
 
     data.insert(7, "Points", points)
+
 
 # output: data table where each term has a corresponding year listed
 def AddYears(data):
@@ -73,10 +44,11 @@ def AddYears(data):
 
     for rowNum in range(shape[0]):
         term = data.loc[rowNum]['Term']
-        year = term[:2]
+        year = term[:2] # letters of term are currently **S, **W, **X, **F, where ** is the last two digits of the year
         years.append("20" + year)
 
     data.insert(0, "Year", years)
+
 
 # output: average the medians and sum the enrollments of courses with multiple sections; keeps only one section of a course from a term
 def CombineSections(data):

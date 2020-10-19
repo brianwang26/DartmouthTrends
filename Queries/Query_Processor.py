@@ -120,6 +120,9 @@ def analytics_and_plotting(data_table, academic_index, time_index, plotting_grad
     #  time_index (Terms or Years), list of grades
 # output: analysis of grades for this specific course/dept across the list of times (rounded to 3 digits)
 def analyze_grades(academic_item, times_list, time_index, grades_list):
+    print("Academic Item : " + str(academic_item))
+    print("Times List : " + str(times_list))
+    print("Grades List : " + str(grades_list) + " \n ")
     time_array = convert_to_time(times_list, time_index) # convert times to integers
     x = np.array(time_array).reshape((-1, 1))
     y = np.array(grades_list)

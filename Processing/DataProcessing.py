@@ -1,6 +1,7 @@
 import pandas as pd
 from Processing import DataProcessingFunctions
 
+# RAW DATA ---> AUGMENTED DATA
 dataTable = pd.read_csv("/Users/brianwang/Desktop/DartmouthTrends/data/rawData.csv") # read in raw data file
 
 dataTable.rename(columns={'TERM':'Term','ENRL':'Enrollment','MEDIAN':'Median', 'COURSE':'Course'}, inplace=True) # rename columns
@@ -26,15 +27,21 @@ dataTable.sort_values(by=["Department", "Course Number", 'Term'], inplace = True
 
 dataTable.to_csv("/Users/brianwang/Desktop/DartmouthTrends/data/augmentedData.csv", index=False) # store this version before combining sections
 
-dataTable2 = pd.read_csv("/Users/brianwang/Desktop/DartmouthTrends/data/augmentedData.csv") # read in augmented data file
+
+# AUGMENTED DATA ---> PROCESSED DATA
+
+dataTable2 = pd.read_csv("/Users/brianwang/Desktop/DartmouthTrends/data/augmentedData.csv")
 
 dataTable2 = DataProcessingFunctions.CombineSections(dataTable2) # combine sections
 
-dataTable2.drop(['Course', 'Section Number', 'Enrollment', 'Points', 'Median'], axis=1, inplace=True) # drop unnecessary columns
+dataTable2.drop(['Course', 'Section Number', 'Enrollment', 'Points', 'Median'], axis=1, inplace=True) # drop repetitive columns
 
-dataTable2.sort_values(by=["Department", "Course Number"], inplace = True) # Resort by Dept, Courses, Term
+dataTable2.sort_values(by=["Department", "Course Number"], inplace = True) # Re-sort by Dept, Courses, Term
 
 dataTable2.to_csv("/Users/brianwang/Desktop/DartmouthTrends/data/processedData.csv", index=False) # write final processed data to csv
+
+
+# PROCESSED DATA ---> BY COURSE/TERM, BY COURSE/YEAR, ..... DATA
 
 processed_data = pd.read_csv("/Users/brianwang/Desktop/DartmouthTrends/data/processedData.csv")
 
